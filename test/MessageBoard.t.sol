@@ -1,0 +1,44 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+import "forge-std/Test.sol";
+import "../src/MessageBoard.sol";
+
+contract MessageBoardTest is Test {
+    MessageBoard board;
+
+    function setUp() public {
+        board = new MessageBoard();
+    }
+
+    function testPostMessage() public {
+        board.postMessage("Hello Arc!");
+        assertEq(board.getMessageCount(), 1);
+    }
+
+    function testGetMessages() public {
+        board.postMessage("First message");
+        board.postMessage("Second message");
+        MessageBoard.Message[] memory msgs = board.getMessages();
+        assertEq(msgs.length, 2);
+        assertEq(msgs[0].content, "First message");
+        assertEq(msgs[1].content, "Second message");
+    }
+
+    function testEmptyMessageFails() public {
+        vm.expectRevert("Message cannot be empty");
+        board.postMessage("");
+    }
+
+    function testTooLongMessageFails() public {
+        string memory longMsg = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        vm.expectRevert("Message too long");
+        board.postMessage(longMsg);
+    }
+
+    function testAuthorRecorded() public {
+        board.postMessage("Hello");
+        MessageBoard.Message[] memory msgs = board.getMessages();
+        assertEq(msgs[0].author, address(this));
+    }
+}
