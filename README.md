@@ -1,19 +1,19 @@
 # Arc Message Board
 
-> A decentralized message board built on Arc Testnet. Anyone can post a message — permanently stored on-chain.
+> A decentralized message board on Arc Testnet. Post messages, react with emojis, say GM — all on-chain.
 
 🌐 **Live App:** https://frontend-one-beta-56.vercel.app  
-📜 **Contract:** `0xfBCA0c086851c6f43Dfda5FF5159082985D765f9`  
+📜 **Contract:** `0x1C458f4abc7f76c7BeB733bB342b9D4b7639f39f`  
 🔍 **Explorer:** https://testnet.arcscan.app
 
 ---
 
-## What it does
+## Features
 
-- Connect any browser wallet (MetaMask, Brave, Rainbow...)
-- Post messages to Arc Testnet — stored permanently on-chain
-- Read all messages with author address and timestamp
-- 280 character limit per message
+- 💬 **Post messages** — stored permanently on-chain (280 char limit)
+- 🌅 **Say GM** — daily on-chain GM counter, tracks unique addresses per day
+- 👍 ❤️ 🔥 **React to messages** — emoji reactions stored on-chain
+- 🔗 **Connect any wallet** — MetaMask, Brave, Rainbow, or any injected wallet
 
 ## Tech Stack
 
@@ -22,11 +22,14 @@
 - **Network:** Arc Testnet (chainId: 5042002, gas token: USDC)
 - **Deployed:** Vercel
 
-## Contract
+## Contract Functions
 
-Deployed on Arc Testnet:
-- **Address:** `0xfBCA0c086851c6f43Dfda5FF5159082985D765f9`
-- **Functions:** `postMessage()`, `getMessages()`, `getMessageCount()`
+- `postMessage(string content)` — post a new message
+- `getMessages()` — read all messages
+- `sayGM()` — record today's GM (one per address per day)
+- `getDailyGMCount()` — get today's unique GM count
+- `addReaction(uint256 messageId, string emoji)` — react to a message
+- `getReactions(uint256 messageId)` — get all reactions for a message
 
 ## Run Locally
 
@@ -48,69 +51,4 @@ forge create src/MessageBoard.sol:MessageBoard \
 
 ---
 
-Built with ❤️ on [Arc Testnet](https://arc.network)## Foundry
-
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
-
-Foundry consists of:
-
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Built with ❤️ on [Arc Testnet](https://arc.network)
