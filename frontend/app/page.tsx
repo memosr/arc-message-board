@@ -4,6 +4,7 @@ import { useState } from "react";
 import { WalletButton } from "@/components/WalletButton";
 import { MessageList } from "@/components/MessageList";
 import { PostMessage } from "@/components/PostMessage";
+import { GMButton } from "@/components/GMButton";
 
 export default function Home() {
   const [refetchSignal, setRefetchSignal] = useState(0);
@@ -17,7 +18,10 @@ export default function Home() {
             <h1 className="text-lg font-semibold text-white">Arc Message Board</h1>
             <p className="text-xs text-gray-500">Arc Testnet · on-chain</p>
           </div>
-          <WalletButton />
+          <div className="flex items-center gap-3">
+            <GMButton />
+            <WalletButton />
+          </div>
         </div>
       </header>
 

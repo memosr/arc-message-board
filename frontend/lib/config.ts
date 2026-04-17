@@ -1,6 +1,6 @@
 import { defineChain } from "viem";
 import { createConfig, http } from "wagmi";
-import { metaMask } from "wagmi/connectors";
+import { injected } from "wagmi/connectors";
 
 export const arcTestnet = defineChain({
   id: 5042002,
@@ -13,7 +13,7 @@ export const arcTestnet = defineChain({
 });
 
 export const MESSAGE_BOARD_ADDRESS =
-  "0xfBCA0c086851c6f43Dfda5FF5159082985D765f9" as const;
+  "0x1C458f4abc7f76c7BeB733bB342b9D4b7639f39f" as const;
 
 export const MESSAGE_BOARD_ABI = [
   {
@@ -49,6 +49,47 @@ export const MESSAGE_BOARD_ABI = [
     stateMutability: "view",
   },
   {
+    type: "function",
+    name: "sayGM",
+    inputs: [],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "getDailyGMCount",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "addReaction",
+    inputs: [
+      { name: "messageId", type: "uint256", internalType: "uint256" },
+      { name: "emoji", type: "string", internalType: "string" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "getReactions",
+    inputs: [{ name: "messageId", type: "uint256", internalType: "uint256" }],
+    outputs: [
+      {
+        name: "",
+        type: "tuple[]",
+        internalType: "struct MessageBoard.ReactionData[]",
+        components: [
+          { name: "emoji", type: "string", internalType: "string" },
+          { name: "count", type: "uint256", internalType: "uint256" },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
     type: "event",
     name: "MessagePosted",
     inputs: [
@@ -58,11 +99,30 @@ export const MESSAGE_BOARD_ABI = [
     ],
     anonymous: false,
   },
+  {
+    type: "event",
+    name: "GMSaid",
+    inputs: [
+      { name: "who", type: "address", indexed: true, internalType: "address" },
+      { name: "timestamp", type: "uint256", indexed: false, internalType: "uint256" },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "ReactionAdded",
+    inputs: [
+      { name: "messageId", type: "uint256", indexed: true, internalType: "uint256" },
+      { name: "reactor", type: "address", indexed: true, internalType: "address" },
+      { name: "emoji", type: "string", indexed: false, internalType: "string" },
+    ],
+    anonymous: false,
+  },
 ] as const;
 
 export const wagmiConfig = createConfig({
   chains: [arcTestnet],
-  connectors: [metaMask()],
+  connectors: [injected()],
   transports: {
     [arcTestnet.id]: http(),
   },

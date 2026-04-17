@@ -18,7 +18,7 @@ export function WalletButton() {
         disabled={isPending}
         className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 font-medium text-sm transition-colors"
       >
-        {isPending ? "Connecting…" : "Connect MetaMask"}
+        {isPending ? "Connecting…" : "Connect Wallet"}
       </button>
     );
   }

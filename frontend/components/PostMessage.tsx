@@ -43,7 +43,7 @@ export function PostMessage({ onPosted }: { onPosted: () => void }) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder={isReady ? "Write a message…" : "Connect wallet to post"}
-          disabled={!isReady || isPending || isConfirming}
+          disabled={isPending || isConfirming}
           rows={3}
           className="w-full px-4 py-3 rounded-xl bg-gray-900 border border-gray-700 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-100 placeholder-gray-600 resize-none disabled:opacity-50 transition-colors"
         />
@@ -68,7 +68,7 @@ export function PostMessage({ onPosted }: { onPosted: () => void }) {
         className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed font-medium text-sm transition-colors"
       >
         {isPending
-          ? "Confirm in MetaMask…"
+          ? "Confirm in wallet…"
           : isConfirming
           ? "Confirming…"
           : "Post Message"}

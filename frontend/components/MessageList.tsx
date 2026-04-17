@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useReadContract } from "wagmi";
 import { MESSAGE_BOARD_ADDRESS, MESSAGE_BOARD_ABI } from "@/lib/config";
+import { MessageReactions } from "@/components/MessageReactions";
 
 type Message = {
   author: `0x${string}`;
@@ -30,13 +31,16 @@ export function MessageList({ refetchSignal }: { refetchSignal: number }) {
   }, [refetchSignal, refetch]);
 
   const messages = (data as Message[] | undefined) ?? [];
-  const sorted = [...messages].reverse();
+  // Pair each message with its original index (= on-chain messageId) then reverse
+  const sorted = messages
+    .map((msg, i) => ({ msg, id: BigInt(i) }))
+    .reverse();
 
   if (isLoading) {
     return (
       <div className="space-y-3">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="h-20 rounded-xl bg-gray-800 animate-pulse" />
+          <div key={i} className="h-24 rounded-xl bg-gray-800 animate-pulse" />
         ))}
       </div>
     );
@@ -60,18 +64,19 @@ export function MessageList({ refetchSignal }: { refetchSignal: number }) {
 
   return (
     <div className="space-y-3">
-      {sorted.map((msg, i) => (
+      {sorted.map(({ msg, id }) => (
         <div
-          key={i}
+          key={id.toString()}
           className="p-4 rounded-xl bg-gray-900 border border-gray-800 hover:border-gray-700 transition-colors"
         >
-          <p className="text-gray-100 mb-3 leading-relaxed">{msg.content}</p>
-          <div className="flex items-center justify-between text-xs text-gray-500">
+          <p className="text-gray-100 leading-relaxed">{msg.content}</p>
+          <div className="flex items-center justify-between text-xs text-gray-500 mt-3">
             <span className="font-mono bg-gray-800 px-2 py-0.5 rounded">
               {formatAddress(msg.author)}
             </span>
             <span>{formatDate(msg.timestamp)}</span>
           </div>
+          <MessageReactions messageId={id} />
         </div>
       ))}
     </div>
