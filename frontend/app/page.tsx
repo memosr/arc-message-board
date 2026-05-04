@@ -1,13 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useReadContract } from "wagmi";
 import { WalletButton } from "@/components/WalletButton";
 import { MessageList } from "@/components/MessageList";
 import { PostMessage } from "@/components/PostMessage";
 import { GMButton } from "@/components/GMButton";
+import { MESSAGE_BOARD_ADDRESS, MESSAGE_BOARD_ABI } from "@/lib/config";
 
 export default function Home() {
   const [refetchSignal, setRefetchSignal] = useState(0);
+
+  const { data: messageCount, refetch: refetchCount } = useReadContract({
+    address: MESSAGE_BOARD_ADDRESS,
+    abi: MESSAGE_BOARD_ABI,
+    functionName: "getMessageCount",
+  });
+
+  useEffect(() => {
+    if (refetchSignal > 0) refetchCount();
+  }, [refetchSignal, refetchCount]);
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -16,7 +28,14 @@ export default function Home() {
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-lg font-semibold text-white">Arc Message Board</h1>
-            <p className="text-xs text-gray-500">Arc Testnet · on-chain</p>
+            <p className="text-xs text-gray-500">
+              Arc Testnet · on-chain
+              {messageCount !== undefined && (
+                <span className="ml-2 text-gray-400">
+                  📬 {messageCount.toString()} messages on-chain
+                </span>
+              )}
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <GMButton />

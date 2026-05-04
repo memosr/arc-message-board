@@ -15,8 +15,19 @@ function formatAddress(addr: string) {
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`;
 }
 
-function formatDate(ts: bigint) {
-  return new Date(Number(ts) * 1000).toLocaleString();
+function formatRelativeTime(ts: bigint): string {
+  const seconds = Math.floor(Date.now() / 1000) - Number(ts);
+  if (seconds < 60) return "just now";
+  if (seconds < 3600) {
+    const m = Math.floor(seconds / 60);
+    return `${m} ${m === 1 ? "minute" : "minutes"} ago`;
+  }
+  if (seconds < 86400) {
+    const h = Math.floor(seconds / 3600);
+    return `${h} ${h === 1 ? "hour" : "hours"} ago`;
+  }
+  if (seconds < 172800) return "yesterday";
+  return new Date(Number(ts) * 1000).toLocaleDateString();
 }
 
 export function MessageList({ refetchSignal }: { refetchSignal: number }) {
@@ -74,7 +85,7 @@ export function MessageList({ refetchSignal }: { refetchSignal: number }) {
             <span className="font-mono bg-gray-800 px-2 py-0.5 rounded">
               {formatAddress(msg.author)}
             </span>
-            <span>{formatDate(msg.timestamp)}</span>
+            <span>{formatRelativeTime(msg.timestamp)}</span>
           </div>
           <MessageReactions messageId={id} />
         </div>
