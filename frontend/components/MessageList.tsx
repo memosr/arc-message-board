@@ -42,7 +42,6 @@ export function MessageList({ refetchSignal }: { refetchSignal: number }) {
   }, [refetchSignal, refetch]);
 
   const messages = (data as Message[] | undefined) ?? [];
-  // Pair each message with its original index (= on-chain messageId) then reverse
   const sorted = messages
     .map((msg, i) => ({ msg, id: BigInt(i) }))
     .reverse();
@@ -51,7 +50,7 @@ export function MessageList({ refetchSignal }: { refetchSignal: number }) {
     return (
       <div className="space-y-3">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="h-24 rounded-xl bg-gray-800 animate-pulse" />
+          <div key={i} className="h-24 rounded-xl bg-gray-200 dark:bg-gray-800 animate-pulse" />
         ))}
       </div>
     );
@@ -59,7 +58,7 @@ export function MessageList({ refetchSignal }: { refetchSignal: number }) {
 
   if (error) {
     return (
-      <p className="text-red-400 text-sm">
+      <p className="text-red-500 dark:text-red-400 text-sm">
         Failed to load messages: {error.message}
       </p>
     );
@@ -67,7 +66,7 @@ export function MessageList({ refetchSignal }: { refetchSignal: number }) {
 
   if (sorted.length === 0) {
     return (
-      <p className="text-gray-500 text-sm text-center py-8">
+      <p className="text-gray-500 dark:text-gray-500 text-sm text-center py-8">
         No messages yet. Be the first to post!
       </p>
     );
@@ -78,11 +77,11 @@ export function MessageList({ refetchSignal }: { refetchSignal: number }) {
       {sorted.map(({ msg, id }) => (
         <div
           key={id.toString()}
-          className="p-4 rounded-xl bg-gray-900 border border-gray-800 hover:border-gray-700 transition-colors"
+          className="p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
         >
-          <p className="text-gray-100 leading-relaxed">{msg.content}</p>
-          <div className="flex items-center justify-between text-xs text-gray-500 mt-3">
-            <span className="font-mono bg-gray-800 px-2 py-0.5 rounded">
+          <p className="text-gray-800 dark:text-gray-100 leading-relaxed">{msg.content}</p>
+          <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-500 mt-3">
+            <span className="font-mono bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded">
               {formatAddress(msg.author)}
             </span>
             <span>{formatRelativeTime(msg.timestamp)}</span>

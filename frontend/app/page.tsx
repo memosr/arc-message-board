@@ -6,6 +6,7 @@ import { WalletButton } from "@/components/WalletButton";
 import { MessageList } from "@/components/MessageList";
 import { PostMessage } from "@/components/PostMessage";
 import { GMButton } from "@/components/GMButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { MESSAGE_BOARD_ADDRESS, MESSAGE_BOARD_ABI } from "@/lib/config";
 
 export default function Home() {
@@ -22,22 +23,23 @@ export default function Home() {
   }, [refetchSignal, refetchCount]);
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
       {/* Header */}
-      <header className="border-b border-gray-800 px-4 py-4">
+      <header className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-semibold text-white">Arc Message Board</h1>
-            <p className="text-xs text-gray-500">
+            <h1 className="text-lg font-semibold text-gray-900 dark:text-white">Arc Message Board</h1>
+            <p className="text-xs text-gray-500 dark:text-gray-500">
               Arc Testnet · on-chain
               {messageCount !== undefined && (
-                <span className="ml-2 text-gray-400">
+                <span className="ml-2 text-gray-500 dark:text-gray-400">
                   📬 {messageCount.toString()} messages on-chain
                 </span>
               )}
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <GMButton />
             <WalletButton />
           </div>
@@ -48,7 +50,7 @@ export default function Home() {
       <main className="max-w-2xl mx-auto px-4 py-8 space-y-8">
         {/* Post form */}
         <section>
-          <h2 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+          <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
             New Message
           </h2>
           <PostMessage onPosted={() => setRefetchSignal((s) => s + 1)} />
@@ -56,7 +58,7 @@ export default function Home() {
 
         {/* Message feed */}
         <section>
-          <h2 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+          <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
             Messages
           </h2>
           <MessageList refetchSignal={refetchSignal} />

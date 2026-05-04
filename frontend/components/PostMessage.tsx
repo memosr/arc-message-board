@@ -28,7 +28,6 @@ export function PostMessage({ onPosted }: { onPosted: () => void }) {
     });
   }
 
-  // clear + notify parent once confirmed
   if (isSuccess && content !== "") {
     setContent("");
     onPosted();
@@ -45,11 +44,11 @@ export function PostMessage({ onPosted }: { onPosted: () => void }) {
           placeholder={isReady ? "Write a message…" : "Connect wallet to post"}
           disabled={isPending || isConfirming}
           rows={3}
-          className="w-full px-4 py-3 rounded-xl bg-gray-900 border border-gray-700 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-100 placeholder-gray-600 resize-none disabled:opacity-50 transition-colors"
+          className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 resize-none disabled:opacity-50 transition-colors"
         />
         <span
           className={`absolute bottom-3 right-3 text-xs ${
-            remaining < 20 ? (remaining < 0 ? "text-red-400" : "text-amber-400") : "text-gray-600"
+            remaining < 20 ? (remaining < 0 ? "text-red-500 dark:text-red-400" : "text-amber-500 dark:text-amber-400") : "text-gray-400 dark:text-gray-600"
           }`}
         >
           {remaining}
@@ -57,7 +56,7 @@ export function PostMessage({ onPosted }: { onPosted: () => void }) {
       </div>
 
       {error && (
-        <p className="text-red-400 text-sm">
+        <p className="text-red-500 dark:text-red-400 text-sm">
           {(error as Error).message?.slice(0, 120)}
         </p>
       )}
@@ -65,7 +64,7 @@ export function PostMessage({ onPosted }: { onPosted: () => void }) {
       <button
         type="submit"
         disabled={!canSubmit}
-        className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed font-medium text-sm transition-colors"
+        className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed font-medium text-sm text-white transition-colors"
       >
         {isPending
           ? "Confirm in wallet…"

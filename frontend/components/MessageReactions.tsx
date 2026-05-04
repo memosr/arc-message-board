@@ -59,8 +59,8 @@ export function MessageReactions({ messageId }: { messageId: bigint }) {
             disabled={!isReady || isPending || isConfirming}
             className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs transition-colors border ${
               count > 0
-                ? "border-indigo-500/50 bg-indigo-500/10 text-indigo-300"
-                : "border-gray-700 bg-gray-800 text-gray-400"
+                ? "border-indigo-500/50 bg-indigo-500/10 text-indigo-600 dark:text-indigo-300"
+                : "border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
             } hover:border-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             <span>{emoji}</span>
