@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useReadContract } from "wagmi";
 import { WalletButton } from "@/components/WalletButton";
 import { MessageList } from "@/components/MessageList";
+import { TrendingMessages } from "@/components/TrendingMessages";
 import { PostMessage } from "@/components/PostMessage";
 import { GMButton } from "@/components/GMButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -54,6 +55,11 @@ export default function Home() {
             New Message
           </h2>
           <PostMessage onPosted={() => setRefetchSignal((s) => s + 1)} />
+        </section>
+
+        {/* Trending */}
+        <section>
+          <TrendingMessages />
         </section>
 
         {/* Message feed */}
